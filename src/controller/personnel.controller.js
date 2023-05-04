@@ -47,6 +47,30 @@ class personnelController {
       ctx.app.emit("error", "查询人员列表失败", ctx);
     }
   }
+  async delete(ctx, next) {
+    const { id } = ctx.request.body;
+    const res = await personnelService.delete(id);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "删除人员成功",
+      };
+    } else {
+      ctx.app.emit("error", "删除人员失败", ctx);
+    }
+  }
+  async batchDelete(ctx, next) {
+    const { ids } = ctx.request.body;
+    const res = await personnelService.batchDelete(ids);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "批量删除成功",
+      };
+    } else {
+      ctx.app.emit("error", "批量删除失败", ctx);
+    }
+  }
 }
 
 module.exports = new personnelController();

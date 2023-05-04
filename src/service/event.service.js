@@ -66,12 +66,20 @@ class eventService {
     const result = await connection.execute(statement).catch((err) => {
       console.log(err);
     });
-    return result[0]["COUNT(*)"];
+    return result[0][0]["COUNT(*)"];
   }
 
   async delete(id) {
     const statement = "DELETE FROM EVENT WHERE id = ?;";
     const result = await connection.execute(statement, [id]).catch((err) => {
+      console.log(err);
+    });
+    return result[0];
+  }
+
+  async batchDelete(ids) {
+    const statement = `DELETE FROM EVENT WHERE id IN (${ids.join(",")})`;
+    const result = await connection.execute(statement).catch((err) => {
       console.log(err);
     });
     return result[0];

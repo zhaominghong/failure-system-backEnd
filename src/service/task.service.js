@@ -69,7 +69,7 @@ class taskService {
     const result = await connection.execute(statement).catch((err) => {
       console.log(err);
     });
-    return result[0]["COUNT(*)"];
+    return result[0][0]["COUNT(*)"];
   }
 }
 

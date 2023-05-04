@@ -59,6 +59,18 @@ class eventController {
       ctx.app.emit("error", "删除事件失败", ctx);
     }
   }
+  async batchDelete(ctx, next) {
+    const { ids } = ctx.request.body;
+    const res = await eventService.batchDelete(ids);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "批量删除成功",
+      };
+    } else {
+      ctx.app.emit("error", "批量删除失败", ctx);
+    }
+  }
 }
 
 module.exports = new eventController();
