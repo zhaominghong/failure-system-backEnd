@@ -54,6 +54,12 @@ class UserController {
       };
     }
   }
+  async logout(ctx, next) {
+    ctx.body = {
+      code: 200,
+      message: "注销登录成功"
+    }
+  }
   async getInfo(ctx, next) {
     const { username } = ctx.userinfo;
     const result = await UserService.getUserByName(username);

@@ -7,5 +7,7 @@ taskRouter.get("/", taskController.getTaskById);
 taskRouter.get("/list", taskController.getTaskList);
 
 taskRouter.post("/add", taskController.create);
+taskRouter.post("/delete", taskController.delete);
+taskRouter.post("/batchDelete", taskController.batchDelete);
 
 module.exports = taskRouter;

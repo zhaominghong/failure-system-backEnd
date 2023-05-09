@@ -46,6 +46,30 @@ class taskController {
       ctx.app.emit("error", "查询任务列表失败", ctx);
     }
   }
+  async delete(ctx, next) {
+    const { id } = ctx.request.body;
+    const res = await taskService.delete(id);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "删除任务成功",
+      };
+    } else {
+      ctx.app.emit("error", "删除任务失败", ctx);
+    }
+  }
+  async batchDelete(ctx, next) {
+    const { ids } = ctx.request.body;
+    const res = await taskService.batchDelete(ids);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "批量删除成功",
+      };
+    } else {
+      ctx.app.emit("error", "批量删除失败", ctx);
+    }
+  }
 }
 
 module.exports = new taskController();
