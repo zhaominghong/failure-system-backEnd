@@ -78,19 +78,16 @@ CREATE TABLE `task` (
   `title` varchar(255) NOT NULL COMMENT '任务标题',
   `description` varchar(255) DEFAULT NULL COMMENT '任务描述',
   `handler_id` int NOT NULL COMMENT '处理人员ID',
-  `handler_name` varchar(50) NOT NULL COMMENT '处理人员姓名',
-  `handler_type` int NOT NULL COMMENT '处理人员类型，1表示巡线人员，2表示抢险人员',
+  `level` int NOT NULL COMMENT '任务等级',
   `status` int NOT NULL COMMENT '任务状态，1表示待处理，2表示处理中，3表示已完成',
-  `start_time` datetime NOT NULL COMMENT '任务开始时间',
-  `end_time` datetime DEFAULT NULL COMMENT '任务结束时间',
   `created_time` datetime NOT NULL COMMENT '创建时间',
   `updated_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='任务表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='任务表';
 
 /*Data for the table `task` */
 
-insert  into `task`(`id`,`event_id`,`title`,`description`,`handler_id`,`handler_name`,`handler_type`,`status`,`start_time`,`end_time`,`created_time`,`updated_time`) values (1,1,'Task 1','This is task 1',1,'John Doe',1,1,'2023-05-01 09:00:00','2023-05-01 10:00:00','2023-05-01 08:00:00','2023-05-01 10:00:00'),(2,1,'Example Event','This is an example event',1,'John Doe',1,1,'2023-06-01 09:00:00','2023-06-01 17:00:00','2023-05-15 10:00:00','2023-05-20 14:30:00');
+insert  into `task`(`id`,`event_id`,`title`,`description`,`handler_id`,`level`,`status`,`created_time`,`updated_time`) values (1,4,'Task 1','This is task 1',1,1,1,'2023-05-01 08:00:00','2023-05-01 10:00:00');
 
 /*Table structure for table `user` */
 
