@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
+SQLyog Ultimate v12.09 (64 bit)
 MySQL - 8.0.26 : Database - failure-system
 *********************************************************************
 */
@@ -18,6 +18,8 @@ USE `failure-system`;
 
 /*Table structure for table `event` */
 
+DROP TABLE IF EXISTS `event`;
+
 CREATE TABLE `event` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '事件id，自增长',
   `title` varchar(50) NOT NULL COMMENT '事件标题',
@@ -31,13 +33,15 @@ CREATE TABLE `event` (
   `pipeline_id` int NOT NULL COMMENT '事件所属管道id',
   `level` int NOT NULL COMMENT '事件级别，1为一般，2为重要，3为紧急',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='事件表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='事件表';
 
 /*Data for the table `event` */
 
-insert  into `event`(`id`,`title`,`description`,`location`,`status`,`submit_time`,`handler_id`,`handler_time`,`manager_id`,`pipeline_id`,`level`) values (4,'阀门老化','阀门年久失修，需要更换','成都市新都区',1,'2023-05-04 20:06:09',1,'2023-05-04 20:06:00',1,1,1);
+insert  into `event`(`id`,`title`,`description`,`location`,`status`,`submit_time`,`handler_id`,`handler_time`,`manager_id`,`pipeline_id`,`level`) values (4,'阀门老化','阀门年久失修，需要更换','成都市新都区',1,'2023-05-04 20:06:09',1,'2023-05-04 20:06:00',1,1,1),(5,'test','大大的test','[30.629164,104.061154]',1,'2023-05-16 17:05:48',1,'2023-05-16 00:00:00',1,1,1);
 
 /*Table structure for table `personnel` */
+
+DROP TABLE IF EXISTS `personnel`;
 
 CREATE TABLE `personnel` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -56,21 +60,28 @@ insert  into `personnel`(`id`,`name`,`identity`,`identityNo`,`telePhoneNo`,`emai
 
 /*Table structure for table `pipeline` */
 
+DROP TABLE IF EXISTS `pipeline`;
+
 CREATE TABLE `pipeline` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '管道id，自增长',
   `name` varchar(50) NOT NULL COMMENT '管道名称',
   `description` varchar(255) DEFAULT NULL COMMENT '管道描述',
   `length` bigint NOT NULL COMMENT '管道长度',
-  `start_location` decimal(10,6) NOT NULL COMMENT '管道起点位置',
-  `end_location` decimal(10,6) NOT NULL COMMENT '管道终点位置',
+  `start_location_x` decimal(10,6) DEFAULT NULL COMMENT '管道起点经度',
+  `start_location_y` decimal(10,6) NOT NULL COMMENT '管道起点纬度',
+  `end_location_x` decimal(10,6) DEFAULT NULL COMMENT '管道终点经度',
+  `end_location_y` decimal(10,6) NOT NULL COMMENT '管道终点纬度',
+  `paths` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '管道路径坐标点数组',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*Data for the table `pipeline` */
 
-insert  into `pipeline`(`id`,`name`,`description`,`length`,`start_location`,`end_location`) values (1,'一号管道','本项目的第一条管道',15280,'31.230400','121.473700');
+insert  into `pipeline`(`id`,`name`,`description`,`length`,`start_location_x`,`start_location_y`,`end_location_x`,`end_location_y`,`paths`) values (1,'一号管道','本项目的第一条管道',15280,'104.059813','30.629205','30.629210','104.059807','[[[104.059813,30.629205],[104.060285,30.629201],[104.060317,30.628744],[104.060317,30.628471],[104.060333,30.627954],[104.060328,30.627714],[104.060339,30.627428],[104.060344,30.62723],[104.061057,30.627234],[104.061073,30.627867],[104.061036,30.628693],[104.061116,30.628758],[104.061159,30.629071],[104.061181,30.629215],[104.061272,30.629293],[104.061283,30.62951],[104.060811,30.62951],[104.060478,30.629505],[104.059802,30.629478],[104.059807,30.62921]],[[104.059993,30.628744],[104.060309,30.628748]],[[104.059976,30.628471],[104.060309,30.628467]],[[104.059987,30.628227],[104.06032,30.628227]],[[104.060019,30.627941],[104.060331,30.627964]],[[104.060062,30.62771],[104.060325,30.627714]],[[104.060035,30.627507],[104.060347,30.627534]],[[104.060035,30.627391],[104.060331,30.627433]],[[104.060373,30.629044],[104.061119,30.629058]],[[104.060593,30.629224],[104.061178,30.629224]]]');
 
 /*Table structure for table `task` */
+
+DROP TABLE IF EXISTS `task`;
 
 CREATE TABLE `task` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '任务ID',
@@ -90,6 +101,8 @@ CREATE TABLE `task` (
 insert  into `task`(`id`,`event_id`,`title`,`description`,`handler_id`,`level`,`status`,`created_time`,`updated_time`) values (1,4,'Task 1','This is task 1',1,1,1,'2023-05-01 08:00:00','2023-05-01 10:00:00');
 
 /*Table structure for table `user` */
+
+DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '用户id，自增长',
