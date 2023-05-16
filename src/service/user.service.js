@@ -1,13 +1,21 @@
+const path = require("path");
+
 const connection = require("../app/database");
+const config = require("../app/config");
 
 class UserService {
   async create(user) {
     const { username, password, role } = user;
+    const avatar = path.join(
+      "http://localhost:",
+      config.APP_PORT,
+      "/avatar/defaultAvatar.jpg"
+    );
     const statement =
-      "INSERT INTO user (USERNAME, PASSWORD, ROLE) VALUES(?, ?, ?)";
+      "INSERT INTO user (USERNAME, PASSWORD, ROLE, AVATAR) VALUES(?, ?, ?, ?)";
     let error;
     const result = await connection
-      .execute(statement, [username, password, role])
+      .execute(statement, [username, password, role, avatar])
       .catch((err) => {
         console.log(err);
         error = err;
