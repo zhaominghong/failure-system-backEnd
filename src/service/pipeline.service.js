@@ -3,31 +3,28 @@ const connection = require("../app/database");
 class pipelineService {
   async create(pipeline) {
     const {
-      title,
+      name,
       description,
-      location,
-      status,
-      handler_id,
-      handler_time,
-      manager_id,
-      pipeline_id,
-      level,
+      length,
+      start_location_x,
+      start_location_y,
+      end_location_x,
+      end_location_y,
+      paths,
     } = pipeline;
     const submit_time = new Date().toLocaleString();
     const statement =
-      "INSERT INTO PIPELINE (title, description, location, status, submit_time, handler_id, handler_time, manager_id, pipeline_id, level) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+      "INSERT INTO PIPELINE (name,description,length,start_location_x,start_location_y,end_location_x,end_location_y,paths,) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?);";
     const result = await connection
       .execute(statement, [
-        title,
+        name,
         description,
-        location,
-        status,
-        submit_time,
-        handler_id,
-        handler_time,
-        manager_id,
-        pipeline_id,
-        level,
+        length,
+        start_location_x,
+        start_location_y,
+        end_location_x,
+        end_location_y,
+        paths,
       ])
       .catch((err) => {
         console.log(err);
