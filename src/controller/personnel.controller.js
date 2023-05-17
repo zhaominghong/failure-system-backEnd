@@ -1,5 +1,8 @@
 const personnelService = require("../service/personnel.service");
 const errorTypes = require("../constants/error-types");
+const parseXlsxData = require('../utils/xlsxToJSON')
+const saveFile = require("../utils/saveFile");
+
 
 class personnelController {
   async create(ctx, next) {
@@ -70,6 +73,13 @@ class personnelController {
     } else {
       ctx.app.emit("error", "批量删除失败", ctx);
     }
+  }
+  async import(ctx, next) {
+    const files = ctx.request.files
+    const fileName = saveFile(files.file, '/public/personnelImportFile/')
+    parseXlsxData(fileName).then(data => {
+      console.log(data)
+    })
   }
 }
 

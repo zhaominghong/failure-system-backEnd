@@ -9,5 +9,6 @@ personnelRouter.get("/list", personnelController.getPersonnelList);
 personnelRouter.post("/add", personnelController.create);
 personnelRouter.post("/delete", personnelController.delete);
 personnelRouter.post("/batchDelete", personnelController.batchDelete);
+personnelRouter.post("/import", personnelController.import);
 
 module.exports = personnelRouter;

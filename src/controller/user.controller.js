@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const UserService = require("../service/user.service");
 const config = require("../app/config");
-const saveAvatar = require("../utils/saveAvatar");
+const saveFile = require("../utils/saveFile");
 
 class UserController {
   async create(ctx, next) {
@@ -82,10 +82,6 @@ class UserController {
   async updateInfo(ctx, next) {
     const { username } = ctx.userinfo;
     const info = ctx.request.body;
-    const file = ctx.request.files;
-    info.avatar = `http://localhost:${config.APP_PORT}/avatar/${saveAvatar(
-      file.avatar
-    )}`;
     const result = await UserService.updateInfo(username, info);
     if (result) {
       ctx.body = {
@@ -97,6 +93,27 @@ class UserController {
       ctx.body = {
         code: 200,
         message: "用户信息更新成功",
+      };
+    }
+  }
+  async upload(ctx, next) {
+    const { username } = ctx.userinfo;
+    const file = ctx.request.files
+    
+    const avatar = `http://localhost:${config.APP_PORT}/avatar/${saveFile(
+      file.avatar,'/public/avatar/'
+    )}`;
+    const result = await UserService.upload(username, avatar)
+    if (result) {
+      ctx.body = {
+        code: 20000,
+        message: "头像更新失败",
+        error: result,
+      };
+    } else {
+      ctx.body = {
+        code: 200,
+        message: "头像更新成功",
       };
     }
   }

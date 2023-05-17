@@ -12,5 +12,6 @@ userRouter.post("/login", UserController.login);
 userRouter.post("/logout", UserController.logout);
 userRouter.get("/info", UserController.getInfo);
 userRouter.post("/update", UserController.updateInfo);
+userRouter.post("/upload", UserController.upload);
 
 module.exports = userRouter;

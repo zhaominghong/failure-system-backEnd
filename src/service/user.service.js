@@ -35,12 +35,23 @@ class UserService {
     return result[0];
   }
   async updateInfo(username, info) {
-    const { avatar, email, phone, role } = info;
+    const { email, phone } = info;
     const statement =
-      "UPDATE user SET avatar=?, email=?, phone=?, role=? WHERE username=?;";
+      "UPDATE user SET email=?, phone=? WHERE username=?;";
     let error;
     const result = await connection
-      .execute(statement, [avatar, email, phone, role, username])
+      .execute(statement, [email, phone, username])
+      .catch((err) => {
+        console.log(err);
+        error = err;
+      });
+    return error;
+  }
+  async upload(username, avatar) {
+    const statement = "UPDATE user SET avatar=? WHERE username=?;";
+    let error;
+    const result = await connection
+      .execute(statement, [avatar, username])
       .catch((err) => {
         console.log(err);
         error = err;

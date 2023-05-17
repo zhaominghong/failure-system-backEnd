@@ -2,10 +2,10 @@ const connection = require("../app/database");
 
 class personnelService {
   async create(personnel) {
-    const { name, identity, identityNo, telePhoneNo, email, avatar } =
+    const { name, identity, identityNo, telePhoneNo, email } =
       personnel;
     const statement =
-      "INSERT INTO PERSONNEL (name, identity, identityNo, telePhoneNo, email, avatar) VALUES (?, ?, ?, ?, ?, ?);";
+      "INSERT INTO PERSONNEL (name, identity, identityNo, telePhoneNo, email) VALUES (?, ?, ?, ?, ?);";
     const result = await connection
       .execute(statement, [
         name,
@@ -13,7 +13,6 @@ class personnelService {
         identityNo,
         telePhoneNo,
         email,
-        avatar,
       ])
       .catch((err) => {
         console.log(err);
