@@ -2,18 +2,22 @@ const connection = require("../app/database");
 
 class personnelService {
   async create(personnel) {
-    const { name, identity, identityNo, telePhoneNo, email } =
-      personnel;
+    const { name, identity, identityNo, telePhoneNo, email } = personnel;
     const statement =
       "INSERT INTO PERSONNEL (name, identity, identityNo, telePhoneNo, email) VALUES (?, ?, ?, ?, ?);";
     const result = await connection
-      .execute(statement, [
-        name,
-        identity,
-        identityNo,
-        telePhoneNo,
-        email,
-      ])
+      .execute(statement, [name, identity, identityNo, telePhoneNo, email])
+      .catch((err) => {
+        console.log(err);
+      });
+    return result[0];
+  }
+  async update(personnel) {
+    const { id, name, identity, identityNo, telePhoneNo, email } = personnel;
+    const statement =
+      "UPDATE PERSONNEL SET name=?, identity=?, identityNo=?, telePhoneNo=?, email=? WHERE id=?;";
+    const result = await connection
+      .execute(statement, [name, identity, identityNo, telePhoneNo, email, id])
       .catch((err) => {
         console.log(err);
       });
@@ -66,6 +70,24 @@ class personnelService {
     const result = await connection.execute(statement).catch((err) => {
       console.log(err);
     });
+    return result[0];
+  }
+
+  async batchCreate(personnelList) {
+    let statement =
+      "INSERT INTO PERSONNEL (name, identity, identityNo, telePhoneNo, email) VALUES ";
+    let arr = [];
+    let strs = [];
+    for (let i = 0; i < personnelList.length; i++) {
+      strs.push("(?,?,?,?,?)");
+      arr.push(...personnelList[i]);
+    }
+    statement += strs.join(",");
+    const result = await connection
+      .execute(statement, [...arr])
+      .catch((err) => {
+        console.log(err);
+      });
     return result[0];
   }
 }

@@ -1,8 +1,5 @@
 const personnelService = require("../service/personnel.service");
 const errorTypes = require("../constants/error-types");
-const parseXlsxData = require('../utils/xlsxToJSON')
-const saveFile = require("../utils/saveFile");
-
 
 class personnelController {
   async create(ctx, next) {
@@ -15,6 +12,18 @@ class personnelController {
       };
     } else {
       ctx.app.emit("error", "添加人员失败", ctx);
+    }
+  }
+  async update(ctx, next) {
+    const personnel = ctx.request.body;
+    const res = await personnelService.update(personnel);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "修改人员信息成功",
+      };
+    } else {
+      ctx.app.emit("error", "修改人员信息失败", ctx);
     }
   }
 
@@ -75,11 +84,16 @@ class personnelController {
     }
   }
   async import(ctx, next) {
-    const files = ctx.request.files
-    const fileName = saveFile(files.file, '/public/personnelImportFile/')
-    parseXlsxData(fileName).then(data => {
-      console.log(data)
-    })
+    const data = ctx.data;
+    const res = await personnelService.batchCreate(data);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "批量导入成功",
+      };
+    } else {
+      ctx.app.emit("error", "批量导入失败", ctx);
+    }
   }
 }
 

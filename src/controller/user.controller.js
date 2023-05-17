@@ -14,13 +14,13 @@ class UserController {
     if (result) {
       ctx.body = {
         code: 20000,
-        message: "创建用户失败",
+        msg: "创建用户失败",
         error: result,
       };
     } else {
       ctx.body = {
         code: 200,
-        message: "创建用户成功",
+        msg: "创建用户成功",
       };
     }
   }
@@ -45,20 +45,20 @@ class UserController {
       ctx.body = {
         code: 200,
         token: token,
-        message: "登录成功",
+        msg: "登录成功",
       };
     } else {
       ctx.body = {
         code: 20000,
-        message: "登录失败",
+        msg: "登录失败",
       };
     }
   }
   async logout(ctx, next) {
     ctx.body = {
       code: 200,
-      message: "注销登录成功"
-    }
+      msg: "注销登录成功",
+    };
   }
   async getInfo(ctx, next) {
     const { username } = ctx.userinfo;
@@ -70,12 +70,12 @@ class UserController {
         data: {
           userinfo: result[0],
         },
-        message: "用户信息获取成功",
+        msg: "用户信息获取成功",
       };
     } else {
       ctx.body = {
         code: 20000,
-        message: "用户信息获取失败",
+        msg: "用户信息获取失败",
       };
     }
   }
@@ -86,34 +86,35 @@ class UserController {
     if (result) {
       ctx.body = {
         code: 20000,
-        message: "用户信息更新失败",
+        msg: "用户信息更新失败",
         error: result,
       };
     } else {
       ctx.body = {
         code: 200,
-        message: "用户信息更新成功",
+        msg: "用户信息更新成功",
       };
     }
   }
   async upload(ctx, next) {
     const { username } = ctx.userinfo;
-    const file = ctx.request.files
-    
+    const file = ctx.request.files;
+
     const avatar = `http://localhost:${config.APP_PORT}/avatar/${saveFile(
-      file.avatar,'/public/avatar/'
+      file.avatar,
+      "/public/avatar/"
     )}`;
-    const result = await UserService.upload(username, avatar)
+    const result = await UserService.upload(username, avatar);
     if (result) {
       ctx.body = {
         code: 20000,
-        message: "头像更新失败",
+        msg: "头像更新失败",
         error: result,
       };
     } else {
       ctx.body = {
         code: 200,
-        message: "头像更新成功",
+        msg: "头像更新成功",
       };
     }
   }
