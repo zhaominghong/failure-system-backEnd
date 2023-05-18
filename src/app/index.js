@@ -5,6 +5,7 @@ const { koaBody } = require("koa-body");
 const cors = require("@koa/cors");
 const static = require("koa-static");
 
+const auditRouter = require("../router/audit.router");
 const eventRouter = require("../router/event.router");
 const personnelRouter = require("../router/personnel.router");
 const taskRouter = require("../router/task.router");
@@ -21,6 +22,9 @@ app.use(cors());
 app.use(verifyToken);
 
 app.use(static(path.join(__dirname, "../../public/")));
+
+app.use(auditRouter.routes());
+app.use(auditRouter.allowedMethods());
 
 app.use(eventRouter.routes());
 app.use(eventRouter.allowedMethods());

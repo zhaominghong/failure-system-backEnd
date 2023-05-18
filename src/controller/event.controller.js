@@ -71,6 +71,18 @@ class eventController {
       ctx.app.emit("error", "批量删除失败", ctx);
     }
   }
+  async import(ctx, next) {
+    const data = ctx.data;
+    const res = await eventService.batchCreate(data);
+    if (res) {
+      ctx.body = {
+        code: 200,
+        msg: "批量导入成功",
+      };
+    } else {
+      ctx.app.emit("error", "批量导入失败", ctx);
+    }
+  }
 }
 
 module.exports = new eventController();

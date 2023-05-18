@@ -46,7 +46,7 @@ class eventService {
   async getEventList(params) {
     const { limit, start } = params;
     if (limit !== undefined && start !== undefined) {
-      const statement = "SELECT * FROM EVENT LIMIT ? , ?";
+      const statement = "SELECT id, title, description, level, location, status, DATE_FORMAT(submit_time, '%Y/%m/%d %H:%i:%s') AS submit_time, handler_id, DATE_FORMAT(handler_time, '%Y/%m/%d %H:%i:%s') AS handler_time, manager_id, pipeline_id FROM EVENT LIMIT ? , ?";
       const result = await connection
         .execute(statement, [start, limit])
         .catch((err) => {
@@ -54,7 +54,7 @@ class eventService {
         });
       return result[0];
     } else {
-      const statement = "SELECT * FROM EVENT";
+      const statement = "SELECT id, title, description, level, location, status, DATE_FORMAT(submit_time, '%Y/%m/%d %H:%i:%s') AS submit_time, handler_id, DATE_FORMAT(handler_time, '%Y/%m/%d %H:%i:%s') AS handler_time, manager_id, pipeline_id FROM EVENT";
       const result = await connection.execute(statement).catch((err) => {
         console.log(err);
       });
@@ -82,6 +82,24 @@ class eventService {
     const result = await connection.execute(statement).catch((err) => {
       console.log(err);
     });
+    return result[0];
+  }
+  async batchCreate(eventList) {
+    console.log(eventList)
+    let statement =
+      "INSERT INTO EVENT (title, description, level, location, status, submit_time, handler_time, pipeline_id) VALUES ";
+    let arr = [];
+    let strs = [];
+    for (let i = 0; i < eventList.length; i++) {
+      strs.push("(?,?,?,?,?,?,?,?)");
+      arr.push(...eventList[i]);
+    }
+    statement += strs.join(",");
+    const result = await connection
+      .execute(statement, [...arr])
+      .catch((err) => {
+        console.log(err);
+      });
     return result[0];
   }
 }
